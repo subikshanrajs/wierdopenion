@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WierdOpinions - Join the Fray!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #ff6b6b20, #4ecdc420, #45b7d120, #96ceb420);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .mascot {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 60px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 32px;
+            color: #5a67d8;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 28px;
+            color: #e53e3e;
+            text-align: center;
+            margin-bottom: 10px;
+            transform: rotate(-2deg);
+        }
+
+        .headline {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .sub-headline {
+            font-size: 16px;
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .form-subtext {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 4px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-label {
+            font-size: 14px;
+            color: #4a5568;
+            line-height: 1.4;
+        }
+
+        .primary-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff5252 0%, #e53e3e 100%);
+        }
+
+        .primary-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #4a5568;
+        }
+
+        .link-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-text a:hover {
+            text-decoration: underline;
+            color: #5a67d8;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading-mascot {
+            font-size: 40px;
+            animation: tap 1s ease-in-out infinite;
+        }
+
+        @keyframes tap {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .headline {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Registration Page -->
+        <div id="register-page" class="page active">
+            <div class="logo">
+                <div class="mascot">🧠❓</div>
+                <h1>WierdOpinions</h1>
+            </div>
+            
+            <div class="page-title">Join the Fray!</div>
+            <div class="headline">Your Hot Takes Have Found a Home.</div>
+            <div class="sub-headline">
+                Think pineapple on pizza is a culinary masterpiece? Believe cats are secretly plotting world domination? You'll fit right in. Let's get your official soapbox set up.
+            </div>
+
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label" for="username">Pick Your Weirdo Alias</label>
+                    <input type="text" id="username" class="form-input" placeholder="e.g., SirTalksALot, CerealFirst, TheSockConspiracy" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Your Top-Secret Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="your.email@example.com" required>
+                    <div class="form-subtext">(So we can notify you when an argument needs your expert opinion)</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Create Your Secret Handshake</label>
+                    <input type="password" id="password" class="form-input" placeholder="At least 8 characters, make it weird" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirm-password">Confirm the Handshake (We're forgetful)</label>
+                    <input type="password" id="confirm-password" class="form-input" placeholder="One more time..." required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label class="checkbox-label" for="terms">
+                        I solemnly swear that my opinions are weird and I'm ready to defend them (and I agree to the boring but necessary <a href="#" style="color: #667eea;">Terms of Service</a>).
+                    </label>
+                </div>
+
+                <button type="submit" class="primary-btn">Unleash My Opinions!</button>
+            </form>
+
+            <div class="loading" id="register-loading">
+                <div class="loading-mascot">🧠</div>
+                <div>Setting up your soapbox...</div>
+            </div>
+
+            <div class="link-text">
+                Already a card-carrying member of the weird? <button class="toggle-btn" onclick="showLogin()">Log in here.</button>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="logo">
+                <div class="mascot">🗣️💭</div>
+                <h1>WierdOpinions</h1>
+            </div>
+            
+            <div class="page-title">Welcome Back, Opinionator!</div>
+            <div class="headline">Ready to Stir the Pot Again?</div>
+            <div class="sub-headline">
+                The world's most important debates have missed you. Time to log in and defend your gloriously strange beliefs.
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-username">Your Alias or Email</label>
+                    <input type="text" id="login-username" class="form-input" placeholder="SirTalksALot" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="login-password">The Secret Handshake</label>
+                    <input type="password" id="login-password" class="form-input" placeholder="You know the drill..." required>
+                </div>
+
+                <button type="submit" class="primary-btn">Enter the Arena!</button>
+            </form>
+
+            <div class="loading" id="login-loading">
+                <div class="loading-mascot">🤔</div>
+                <div>Preparing your debate ammunition...</div>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#" onclick="showForgotPassword()">Forgot the secret handshake?</a>
+            </div>
+
+            <div class="link-text">
+                Not one of us yet? Got some weird thoughts to share? <button class="toggle-btn" onclick="showRegister()">Join the club!</button>
+            </div>
+        </div>
+
+        <!-- Forgot Password Mock -->
+        <div id="forgot-page" class="page">
+            <div class="logo">
+                <div class="mascot">🔑🤷</div>
+                <h1>WierdOpinions</h1>
+            </div>
+            
+            <div class="page-title">Oops!</div>
+            <div class="headline">No Worries!</div>
+            <div class="sub-headline">
+                Let's concoct a new secret handshake for you. Just tell us your email and we'll send you the magic words.
+            </div>
+
+            <form id="forgot-form">
+                <div class="form-group">
+                    <label class="form-label" for="forgot-email">Your Top-Secret Email</label>
+                    <input type="email" id="forgot-email" class="form-input" placeholder="your.email@example.com" required>
+                </div>
+
+                <button type="submit" class="primary-btn">Send New Handshake!</button>
+            </form>
+
+            <div class="link-text">
+                Remember the handshake now? <button class="toggle-btn" onclick="showLogin()">Back to login</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLogin() {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('login-page').classList.add('active');
+        }
+
+        function showRegister() {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('register-page').classList.add('active');
+        }
+
+        function showForgotPassword() {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('forgot-page').classList.add('active');
+        }
+
+        // Form handling with loading animations
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                alert('🤨 Those handshakes don\'t match! Try again.');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('🔐 Your secret handshake needs to be at least 8 characters long!');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('register-loading').style.display = 'block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('🎉 Welcome to the club! Your soapbox is ready!');
+                document.getElementById('register-form').style.display = 'block';
+                document.getElementById('register-loading').style.display = 'none';
+                // In a real app, you'd redirect to the main app here
+            }, 2000);
+        });
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('login-loading').style.display = 'block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('🚀 Welcome back! The debates await your wisdom!');
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('login-loading').style.display = 'none';
+                // In a real app, you'd redirect to the main app here
+            }, 1500);
+        });
+
+        document.getElementById('forgot-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('📧 Check your email! We\'ve sent you a new secret handshake recipe.');
+            showLogin();
+        });
+
+        // Fun input interactions
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#667eea';
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // Easter egg - click the mascot
+        document.querySelectorAll('.mascot').forEach(mascot => {
+            mascot.addEventListener('click', function() {
+                this.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
