@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WierdOpinions - Ask the Weird Questions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom Styles */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #ff6b6b;
+            --warning-color: #ffc107;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+        }
+
+        .navbar-brand {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ee5a52 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05), transparent);
+            animation: rotate 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero-section > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .question-card {
+            transition: all 0.3s ease;
+            border-radius: 15px;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .question-title {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .question-title:hover {
+            color: var(--secondary-color);
+        }
+
+        .question-photo {
+            max-width: 150px;
+            max-height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .mascot {
+            animation: bounce 2s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mascot:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ee5a52 100%);
+            border: none;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff5252 0%, #e53e3e 100%);
+            color: white;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .trending-item {
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            background: var(--light-bg);
+        }
+
+        .trending-item:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#" onclick="showHome()">
+                <span class="mascot" style="font-size: 20px;">🧠❓</span>
+                WierdOpinions
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showHome()">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="filterByCategory('food')">Food & Cooking</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByCategory('lifestyle')">Lifestyle</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByCategory('relationships')">Relationships</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByCategory('technology')">Technology</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filterByCategory('random')">Random Weird</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item" id="ask-question-nav" style="display: none;">
+                        <a class="nav-link btn btn-outline-light ms-2 px-3" href="#" onclick="showAskQuestion()">
+                            <i class="fas fa-plus me-1"></i>Ask Question
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Search Form -->
+                <form class="d-flex me-3" onsubmit="searchQuestions(event)">
+                    <input class="form-control me-2" type="search" id="search-input" placeholder="Search weird questions...">
+                    <button class="btn btn-outline-light" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item" id="login-nav">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item" id="register-nav">
+                        <a class="nav-link" href="register.html">Register</a>
+                    </li>
+                    <li class="nav-item" id="user-nav" style="display: none;">
+                        <span class="navbar-text">
+                            <i class="fas fa-user me-1"></i>
+                            <span id="current-username">User</span>
+                        </span>
+                    </li>
+                    <li class="nav-item" id="logout-nav" style="display: none;">
+                        <button class="btn btn-link nav-link" onclick="logout()" style="border: none; background: none;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4" id="main-content">
+        <!-- Home Page -->
+        <div id="home-page">
+            <!-- Hero Section -->
+            <div class="hero-section text-white rounded p-5 mb-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h1 class="display-4 fw-bold">Got a Weird Question?</h1>
+                        <p class="lead">Ask the internet's most honest, anonymous opinions about life's strangest moments.</p>
+                        <button class="btn btn-warning btn-lg" id="hero-cta" onclick="location.href='register.html'">
+                            <i class="fas fa-user-plus me-2"></i>Join the Weirdness
+                        </button>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="mascot" style="font-size: 120px;">❓</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Main Content -->
+                <div class="col-lg-8">
+                    <!-- Daily Challenge -->
+                    <div class="card border-warning mb-4">
+                        <div class="card-header bg-warning">
+                            <h5 class="mb-0">
+                                <i class="fas fa-calendar-day me-2"></i>Today's Weirdness Challenge
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">If you could only eat foods that start with the same letter as your name for the rest of your life, would you legally change your name to maximize your food options?</p>
+                            <a href="register.html" class="btn btn-warning btn-sm" id="challenge-btn">
+                                Answer This Challenge
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Recent Questions -->
+                    <div class="main-content">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2>Recent Weird Questions</h2>
+                            <span class="text-muted">42 total questions</span>
+                        </div>
+                        
+                        <div id="questions-container">
+                            <!-- Sample Questions -->
+                            <div class="question-card mb-4">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <span class="badge bg-secondary rounded-pill">Food & Cooking</span>
+                                            <small class="text-muted">Sep 16, 2025</small>
+                                        </div>
+                                        
+                                        <h5 class="card-title">
+                                            <a href="#" class="text-decoration-none question-title">Is it weird that I eat pizza with a fork and knife?</a>
+                                        </h5>
+                                        
+                                        <p class="card-text text-muted">My friends think I'm crazy, but I genuinely believe pizza tastes better when eaten properly with utensils. The cheese doesn't burn your mouth and...</p>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="question-stats">
+                                                <span class="badge bg-light text-dark me-2">
+                                                    <i class="fas fa-eye me-1"></i>234 views
+                                                </span>
+                                                <span class="badge bg-light text-dark">
+                                                    <i class="fas fa-comments me-1"></i>18 opinions
+                                                </span>
+                                            </div>
+                                            <small class="text-muted">
+                                                by <strong>PizzaEtiquetteKing</strong>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-card mb-4">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <span class="badge bg-secondary rounded-pill">Random Weird</span>
+                                            <small class="text-muted">Sep 15, 2025</small>
+                                        </div>
+                                        
+                                        <h5 class="card-title">
+                                            <a href="#" class="text-decoration-none question-title">Do you think my cat is plotting against me?</a>
+                                        </h5>
+                                        
+                                        <p class="card-text text-muted">She stares at me while I sleep and I swear I caught her measuring the distance from the couch to my head. Should I be worried?</p>
+                                        
+                                        <div class="alert alert-info mb-3">
+                                            <i class="fas fa-poll me-2"></i>This question has a poll - vote now!
+                                        </div>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="question-stats">
+                                                <span class="badge bg-light text-dark me-2">
+                                                    <i class="fas fa-eye me-1"></i>156 views
+                                                </span>
+                                                <span class="badge bg-light text-dark">
+                                                    <i class="fas fa-comments me-1"></i>27 opinions
+                                                </span>
+                                            </div>
+                                            <small class="text-muted">
+                                                by <strong>CatConspiracyTheory</strong>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="question-card mb-4">
+                                <div class="card h-100 shadow-sm border-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <span class="badge bg-secondary rounded-pill">Lifestyle</span>
+                                            <small class="text-muted">Sep 14, 2025</small>
+                                        </div>
+                                        
+                                        <h5 class="card-title">
+                                            <a href="#" class="text-decoration-none question-title">Is it normal to have full conversations with yourself in the mirror?</a>
+                                        </h5>
+                                        
+                                        <p class="card-text text-muted">I practice important conversations, give myself pep talks, and sometimes even argue with my reflection. My roommate thinks it's concerning...</p>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="question-stats">
+                                                <span class="badge bg-light text-dark me-2">
+                                                    <i class="fas fa-eye me-1"></i>89 views
+                                                </span>
+                                                <span class="badge bg-light text-dark">
+                                                    <i class="fas fa-comments me-1"></i>12 opinions
+                                                </span>
+                                            </div>
+                                            <small class="text-muted">
+                                                by <strong>MirrorTalker</strong>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <div class="sidebar">
+                        <h5 class="mb-3">
+                            <i class="fas fa-fire text-danger me-2"></i>Trending Weird
+                        </h5>
+                        
+                        <div class="trending-item">
+                            <small class="text-muted d-block">#1</small>
+                            <strong>Pineapple Pizza Debate</strong>
+                            <small class="text-muted d-block">2,341 heated opinions</small>
+                        </div>
+                        
+                        <div class="trending-item">
+                            <small class="text-muted d-block">#2</small>
+                            <strong>Toilet Paper Direction</strong>
+                            <small class="text-muted d-block">1,876 strong positions</small>
+                        </div>
+                        
+                        <div class="trending-item">
+                            <small class="text-muted d-block">#3</small>
+                            <strong>Cereal or Milk First?</strong>
+                            <small class="text-muted d-block">1,234 breakfast warriors</small>
+                        </div>
+                        
+                        <div class="trending-item">
+                            <small class="text-muted d-block">#4</small>
+                            <strong>Socks with Sandals</strong>
+                            <small class="text-muted d-block">987 fashion rebels</small>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="sidebar mt-4">
+                        <h5 class="mb-3">
+                            <i class="fas fa-chart-bar text-primary me-2"></i>Weirdness Stats
+                        </h5>
+                        
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <h4 class="text-primary">1,337</h4>
+                                <small class="text-muted">Weird Questions</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h4 class="text-success">42,069</h4>
+                                <small class="text-muted">Hot Takes</small>
+                            </div>
+                            <div class="col-6">
+                                <h4 class="text-warning">666</h4>
+                                <small class="text-muted">Active Debates</small>
+                            </div>
+                            <div class="col-6">
+                                <h4 class="text-info">8,008</h4>
+                                <small class="text-muted">Weird Minds</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Application State
+        let isLoggedIn = false;
+        let currentUser = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+            updateUI();
+        });
+
+        // Check if user is logged in (you can implement session management here)
+        function checkAuthStatus() {
+            // This is where you'd check cookies, localStorage, or make an API call
+            // For now, just using a simple flag
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('logged_in') === 'true') {
+                isLoggedIn = true;
+                currentUser = urlParams.get('username') || 'User';
+            }
+        }
+
+        // Navigation functions
+        function showHome() {
+            document.getElementById('home-page').style.display = 'block';
+            // Update active nav
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelector('[onclick="showHome()"]').classList.add('active');
+        }
+
+        function showAskQuestion() {
+            if (!isLoggedIn) {
+                window.location.href = 'register.html';
+                return;
+            }
+            alert('🎯 Ask Question feature coming soon! For now, enjoy browsing the weirdness.');
+        }
+
+        // Auth functions
+        function updateUI() {
+            if (isLoggedIn) {
+                document.getElementById('login-nav').style.display = 'none';
+                document.getElementById('register-nav').style.display = 'none';
+                document.getElementById('user-nav').style.display = 'block';
+                document.getElementById('logout-nav').style.display = 'block';
+                document.getElementById('ask-question-nav').style.display = 'block';
+                document.getElementById('current-username').textContent = currentUser || 'User';
+                document.getElementById('hero-cta').innerHTML = '<i class="fas fa-plus me-2"></i>Ask Your Weird Question';
+                document.getElementById('hero-cta').setAttribute('onclick', 'showAskQuestion()');
+                document.getElementById('challenge-btn').setAttribute('onclick', 'showAskQuestion()');
+            } else {
+                document.getElementById('login-nav').style.display = 'block';
+                document.getElementById('register-nav').style.display = 'block';
+                document.getElementById('user-nav').style.display = 'none';
+                document.getElementById('logout-nav').style.display = 'none';
+                document.getElementById('ask-question-nav').style.display = 'none';
+                document.getElementById('hero-cta').innerHTML = '<i class="fas fa-user-plus me-2"></i>Join the Weirdness';
+                document.getElementById('hero-cta').setAttribute('onclick', "location.href='register.html'");
+                document.getElementById('challenge-btn').setAttribute('onclick', "location.href='register.html'");
+            }
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            updateUI();
+            alert('👋 See you later, weirdo! Your opinions will be missed.');
+            // You might want to redirect or clear session here
+        }
+
+        // Search functionality
+        function searchQuestions(event) {
+            event.preventDefault();
+            const query = document.getElementById('search-input').value.trim();
+            if (query) {
+                alert(`🔍 Searching for: "${query}"\nSearch results coming soon!`);
+            }
+        }
+
+        // Category filtering
+        function filterByCategory(category) {
+            alert(`📂 Showing questions in: ${category}\nCategory filtering coming soon!`);
+        }
+
+        // Fun interactions
+        document.querySelectorAll('.mascot').forEach(mascot => {
+            mascot.addEventListener('click', function() {
+                this.style.transform = 'rotate(360deg) scale(1.2)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 500);
+                
+                // Random fun messages
+                const messages = [
+                    '🤪 You found the secret mascot!',
+                    '🎭 The mascot approves of your curiosity!',
+                    '🎪 Welcome to the circus of opinions!',
+                    '🎨 You have unlocked: Mascot Appreciation Badge!',
+                    '🎯 Direct hit on the weird meter!'
+                ];
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                
+                // Show temporary message
+                const toast = document.createElement('div');
+                toast.className = 'position-fixed top-0 end-0 m-3 alert alert-info alert-dismissible fade show';
+                toast.style.zIndex = '9999';
+                toast.innerHTML = `
+                    ${randomMessage}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 3000);
+            });
+        });
+
+        // Question card interactions
+        document.querySelectorAll('.question-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                    const title = this.querySelector('.question-title').textContent;
+                    alert(`📖 Opening: "${title}"\n\nFull question view coming soon! For now, enjoy the preview.`);
+                }
+            });
+        });
+
+        // Trending items interaction
+        document.querySelectorAll('.trending-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const topic = this.querySelector('strong').textContent;
+                alert(`🔥 Exploring trending topic: "${topic}"\n\nGet ready for some heated debates!`);
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Press 'Ctrl+/' or 'Cmd+/' to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+                e.preventDefault();
+                document.getElementById('search-input').focus();
+            }
+            
+            // Press 'n' to show ask question (if logged in)
+            if (e.key === 'n' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    showAskQuestion();
+                }
+            }
+        });
+
+        // Add some dynamic content updates
+        setInterval(function() {
+            // Simulate view count updates
+            const viewCounts = document.querySelectorAll('.question-stats .badge:first-child');
+            viewCounts.forEach(badge => {
+                const currentCount = parseInt(badge.textContent.match(/\d+/)[0]);
+                if (Math.random() < 0.1) { // 10% chance to update
+                    const newCount = currentCount + Math.floor(Math.random() * 3) + 1;
+                    badge.innerHTML = `<i class="fas fa-eye me-1"></i>${newCount} views`;
+                }
+            });
+        }, 10000); // Update every 10 seconds
+
+        // Add notification system
+        function showNotification(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `position-fixed top-0 end-0 m-3 alert alert-${type} alert-dismissible fade show`;
+            toast.style.zIndex = '9999';
+            toast.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 5000);
+        }
+
+        // Random weird facts
+        const weirdFacts = [
+            "🐙 Octopuses have three hearts and blue blood!",
+            "🍯 Honey never spoils - some found in pyramids is still edible!",
+            "🦒 Giraffes only sleep 30 minutes to 2 hours per day!",
+            "🍌 Bananas are berries, but strawberries aren't!",
+            "🐧 Penguins can't taste sweet, sour, or umami!",
+            "🌙 A day on Venus is longer than its year!",
+            "🦘 Kangaroos can't walk backwards!",
+            "🧠 Your brain uses about 20% of your body's energy!"
+        ];
+
+        // Show random fact occasionally
+        setInterval(() => {
+            if (Math.random() < 0.05 && isLoggedIn) { // 5% chance every 30 seconds if logged in
+                const randomFact = weirdFacts[Math.floor(Math.random() * weirdFacts.length)];
+                showNotification(`💡 Weird Fact: ${randomFact}`, 'success');
+            }
+        }, 30000);
+
+        console.log('🧠 WierdOpinions initialized! Ready for maximum weirdness!');
+    </script>
+</body>
+</html>
