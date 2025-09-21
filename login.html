@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WierdOpinions - Welcome Back!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #ff6b6b20, #4ecdc420, #45b7d120, #96ceb420);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .mascot {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 60px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 32px;
+            color: #5a67d8;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .page-title {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 28px;
+            color: #e53e3e;
+            text-align: center;
+            margin-bottom: 10px;
+            transform: rotate(-2deg);
+        }
+
+        .headline {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .sub-headline {
+            font-size: 16px;
+            color: #4a5568;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 16px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .primary-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #ff5252 0%, #e53e3e 100%);
+        }
+
+        .primary-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #4a5568;
+        }
+
+        .link-text a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-text a:hover {
+            text-decoration: underline;
+            color: #5a67d8;
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading-mascot {
+            font-size: 40px;
+            animation: tap 1s ease-in-out infinite;
+        }
+
+        @keyframes tap {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+                margin: 10px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+            
+            .headline {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="mascot">🗣️💭</div>
+            <h1>WierdOpinions</h1>
+        </div>
+        
+        <div class="page-title">Welcome Back, Opinionator!</div>
+        <div class="headline">Ready to Stir the Pot Again?</div>
+        <div class="sub-headline">
+            The world's most important debates have missed you. Time to log in and defend your gloriously strange beliefs.
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label class="form-label" for="login-username">Your Alias or Email</label>
+                <input type="text" id="login-username" class="form-input" placeholder="SirTalksALot" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="login-password">The Secret Handshake</label>
+                <input type="password" id="login-password" class="form-input" placeholder="You know the drill..." required>
+            </div>
+
+            <button type="submit" class="primary-btn">Enter the Arena!</button>
+        </form>
+
+        <div class="loading" id="login-loading">
+            <div class="loading-mascot">🤔</div>
+            <div>Preparing your debate ammunition...</div>
+        </div>
+
+        <div class="forgot-password">
+            <a href="#" onclick="showForgotPassword()">Forgot the secret handshake?</a>
+        </div>
+
+        <div class="link-text">
+            Not one of us yet? Got some weird thoughts to share? <a href="register.html">Join the club!</a>
+        </div>
+    </div>
+
+    <script>
+        function showForgotPassword() {
+            const email = prompt('🔑 Enter your email to reset your secret handshake:');
+            if (email) {
+                alert('📧 Check your email! We\'ve sent you a new secret handshake recipe.');
+            }
+        }
+
+        // Form handling with loading animations
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('login-loading').style.display = 'block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                alert('🚀 Welcome back! The debates await your wisdom!');
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('login-loading').style.display = 'none';
+                // In a real app, you'd redirect to the main app here
+                // window.location.href = 'index.html?logged_in=true&username=' + document.getElementById('login-username').value;
+            }, 1500);
+        });
+
+        // Fun input interactions
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#667eea';
+            });
+            
+            input.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.style.borderColor = '#e2e8f0';
+                }
+            });
+        });
+
+        // Easter egg - click the mascot
+        document.querySelector('.mascot').addEventListener('click', function() {
+            this.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
